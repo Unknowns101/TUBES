@@ -49,6 +49,9 @@ func AddTeam(teams *[NMAX]Tim, nTim *int) {
 
 func UpdateTeam(teams *[NMAX]Tim, nTim int) {
 	var nama string
+	var seri int
+	var tambahan int
+	
 	fmt.Print("Masukkan nama tim : ")
 	fmt.Scan(&nama)
 
@@ -66,17 +69,19 @@ func UpdateTeam(teams *[NMAX]Tim, nTim int) {
 	fmt.Scan(&t.Kalah)
 
 	fmt.Print("Jumlah pertandingan seri: ")
-	var seri int
+	
 	fmt.Scan(&seri)
 	t.Poin = t.Menang*3 + seri*2 + t.Kalah*1
-	t.TotalPertandingan += 1
+	t.TotalPertandingan = t.Menang + t.Kalah + seri
+
 	for i := 0; i < 5; i++ {
+		
 		fmt.Printf("Masukkan poin terbaru untuk %s: ", t.NamaPemain[i].Nama)
-		fmt.Scan(&t.NamaPemain[i].Poin)
+		fmt.Scan(&tambahan)
+		t.NamaPemain[i].Poin += tambahan
 	}
 	fmt.Println("Tim berhasil diupdate.")
 }
-
 func DeleteTeam(teams *[NMAX]Tim, nTim *int) {
 	var nama string
 	fmt.Print("Nama tim yang akan dihapus: ")
@@ -148,18 +153,10 @@ func UrutkanTimByPoin(teams *[NMAX]Tim, nTim int) {
 }
 
 func CariTim(teams *[NMAX]Tim, nTim int, nama string) int {
-	var left, right, mid int
-	left = 0
-	right = nTim - 1
-
-	for left <= right {
-		mid = (left + right) / 2
-		if teams[mid].Nama == nama {
-			return mid
-		} else if teams[mid].Nama < nama {
-			left = mid + 1
-		} else {
-			right = mid - 1
+	var i int
+	for i = 0; i < n; i++{
+		if teams[i].Nama == nama {
+			return i
 		}
 	}
 	return -1
@@ -192,7 +189,7 @@ func Menu() {
 		fmt.Println("2. Update Tim")
 		fmt.Println("3. Hapus Tim")
 		fmt.Println("4. Tampilkan Semua Tim")
-		fmt.Println("5. Cari Tim (Binary Search berdasarkan Nama)")
+		fmt.Println("5. Cari Tim (Sequential Search berdasarkan Nama)")
 		fmt.Println("6. Cari Tim (Binary Search berdasarkan Poin)")
 		fmt.Println("7. Keluar")
 		fmt.Print("Pilih menu: ")
