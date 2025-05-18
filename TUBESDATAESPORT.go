@@ -22,6 +22,7 @@ var nTim int
 
 func AddTeam(teams *[NMAX]Tim, nTim *int) {
 	if *nTim >= NMAX {
+		nTim = NMAX
 		fmt.Println("Kapasitas tim penuh.")
 		return
 	}
