@@ -1,4 +1,5 @@
 package main
+
 import "fmt"
 
 const NMAX = 10
@@ -22,8 +23,8 @@ var nTim int
 
 func AddTeam(teams *[NMAX]Tim, nTim *int) {
 	if *nTim >= NMAX {
-		nTim = NMAX
 		fmt.Println("Kapasitas tim penuh.")
+		*nTim = NMAX
 		return
 	}
 
@@ -50,9 +51,6 @@ func AddTeam(teams *[NMAX]Tim, nTim *int) {
 
 func UpdateTeam(teams *[NMAX]Tim, nTim int) {
 	var nama string
-	var seri int
-	var tambahan int
-	
 	fmt.Print("Masukkan nama tim : ")
 	fmt.Scan(&nama)
 
@@ -69,20 +67,19 @@ func UpdateTeam(teams *[NMAX]Tim, nTim int) {
 	fmt.Print("Jumlah kalah: ")
 	fmt.Scan(&t.Kalah)
 
-	fmt.Print("Jumlah pertandingan seri: ")
-	
-	fmt.Scan(&seri)
-	t.Poin = t.Menang*3 + seri*2 + t.Kalah*1
-	t.TotalPertandingan = t.Menang + t.Kalah + seri
-
+	if t.Menang == t.Kalah {
+		t.Poin += 1
+	} else {
+		t.Poin = t.Poin + (t.Menang - t.Kalah)
+	}
+	t.TotalPertandingan = t.Menang + t.Kalah
 	for i := 0; i < 5; i++ {
-		
 		fmt.Printf("Masukkan poin terbaru untuk %s: ", t.NamaPemain[i].Nama)
-		fmt.Scan(&tambahan)
-		t.NamaPemain[i].Poin += tambahan
+		fmt.Scan(&t.NamaPemain[i].Poin)
 	}
 	fmt.Println("Tim berhasil diupdate.")
 }
+
 func DeleteTeam(teams *[NMAX]Tim, nTim *int) {
 	var nama string
 	fmt.Print("Nama tim yang akan dihapus: ")
@@ -120,9 +117,28 @@ func DisplayTeams(t *[NMAX]Tim, nTim int) {
 				pemainTerbaik = t[i].NamaPemain[j].Nama
 			}
 		}
-		fmt.Printf("Pemain terbaik: %s (Poin: %d)\n", pemainTerbaik, maxPoin)
+		fmt.Printf("Pemain terbaik di dalam team: %s (Poin: %d)\n", pemainTerbaik, maxPoin)
 		fmt.Println("----------------")
 	}
+
+	var temp1, maxpoinpemain, maxPoinTim int
+	maxpoinpemain := -1
+	maxPoinTim := -1
+	for i := 0; i < nTim; i++ {
+		for j := 0; i < 5; j++ {
+			if t[i].NamaPemain[j].Poin > maxPoinPemain {
+				maxPoinPemain = t[i].NamaPemain[j].Poin
+				namaPemainTerbaik = t[i].NamaPemain[j].Nama
+				namaTimPemainTerbaik = t[i].Nama
+			}
+			if t[i].Poin > maxPoinTim {
+				maxPoinTim = t[i].Poin
+				namaTimTerbaik = t[i].Nama
+			}
+		}
+	}
+	fmt.Printf("Tim dengan poin terbanyak: %s (Poin: %d)\n", namaTimTerbaik, maxPoinTim)
+	fmt.Printf("Pemain terbaik dari semua tim: %s (Poin: %d) dari tim %s\n", namaPemainTerbaik, maxPoinPemain, namaTimPemainTerbaik)
 }
 
 func UrutkanTim(teams *[NMAX]Tim, nTim int) {
@@ -154,10 +170,18 @@ func UrutkanTimByPoin(teams *[NMAX]Tim, nTim int) {
 }
 
 func CariTim(teams *[NMAX]Tim, nTim int, nama string) int {
-	var i int
-	for i = 0; i < n; i++{
-		if teams[i].Nama == nama {
-			return i
+	var left, right, mid int
+	left = 0
+	right = nTim - 1
+
+	for left <= right {
+		mid = (left + right) / 2
+		if teams[mid].Nama == nama {
+			return mid
+		} else if teams[mid].Nama < nama {
+			left = mid + 1
+		} else {
+			right = mid - 1
 		}
 	}
 	return -1
@@ -190,7 +214,7 @@ func Menu() {
 		fmt.Println("2. Update Tim")
 		fmt.Println("3. Hapus Tim")
 		fmt.Println("4. Tampilkan Semua Tim")
-		fmt.Println("5. Cari Tim (Sequential Search berdasarkan Nama)")
+		fmt.Println("5. Cari Tim (Binary Search berdasarkan Nama)")
 		fmt.Println("6. Cari Tim (Binary Search berdasarkan Poin)")
 		fmt.Println("7. Keluar")
 		fmt.Print("Pilih menu: ")
