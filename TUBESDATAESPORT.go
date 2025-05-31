@@ -170,20 +170,16 @@ func UrutkanTimByPoin_InsertionSort(teams *[NMAX]Tim, nTim int) {
 }
 
 func CariTim(teams *[NMAX]Tim, nTim int, nama string) int {
-	left := 0
-	right := nTim - 1
+	var i int
 
-	for left <= right {
-		mid := (left + right) / 2
-		if teams[mid].Nama == nama {
-			return mid
-		} else if teams[mid].Nama < nama {
-			left = mid + 1
-		} else {
-			right = mid - 1
+	idx := -1
+	i = 0
+	for i < nTim && idx == -1 {
+		if teams[i].Nama == nama {
+			idx = i
 		}
 	}
-	return -1
+	return idx
 }
 
 func CariTimByPoin(teams *[NMAX]Tim, nTim int, poin int) int {
