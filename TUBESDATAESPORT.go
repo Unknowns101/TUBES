@@ -21,6 +21,7 @@ type Tim struct {
 var Teams [NMAX]Tim
 
 func AddTeam(teams *[NMAX]Tim, nTim *int) {
+//Berfungsi untuk menambahkan Nama tim kedalam Array serta pemain dalam tim tersebut//
 	if *nTim >= NMAX {
 		fmt.Println("Kapasitas tim penuh.")
 		return
@@ -48,6 +49,7 @@ func AddTeam(teams *[NMAX]Tim, nTim *int) {
 }
 
 func UpdateTeam(teams *[NMAX]Tim, nTim int) {
+//Berfungsi untuk mengubah atau mengupdate kemenagan, kekalahan, total pertandingan, poin tim dan poin tiap pemain dalam tim yang akan di update//
 	var nama string
 	fmt.Print("Masukkan nama tim : ")
 	fmt.Scan(&nama)
@@ -80,6 +82,7 @@ func UpdateTeam(teams *[NMAX]Tim, nTim int) {
 }
 
 func DeleteTeam(teams *[NMAX]Tim, nTim *int) {
+//Berfungsi untuk mengapus Tim dari Array Tim//
 	var nama string
 	fmt.Print("Nama tim yang akan dihapus: ")
 	fmt.Scan(&nama)
@@ -98,6 +101,7 @@ func DeleteTeam(teams *[NMAX]Tim, nTim *int) {
 }
 
 func DisplayTeams(t *[NMAX]Tim, nTim int) {
+//Berfungsi untuk menampilkan Seluruh Tim yang ikut berkompetisi dan menampilkan tim terbaik dan pemain terbaik//
 	fmt.Println("Daftar Tim: ")
 	fmt.Println("-------------")
 	for i := 0; i < nTim; i++ {
@@ -144,6 +148,7 @@ func DisplayTeams(t *[NMAX]Tim, nTim int) {
 }
 
 func UrutkanTimByNama_SelectionSort(teams *[NMAX]Tim, nTim int) {
+//Untuk mengurutkan Tim bedasarkan Alfabetis menggunakan Selection Sort//
 	for i := 0; i < nTim-1; i++ {
 		minIdx := i
 		for j := i + 1; j < nTim; j++ {
@@ -158,6 +163,7 @@ func UrutkanTimByNama_SelectionSort(teams *[NMAX]Tim, nTim int) {
 }
 
 func UrutkanTimByPoin_InsertionSort(teams *[NMAX]Tim, nTim int) {
+//Untuk mengurutkan Tim bedasarkan Poin yang dimiliki menggunakan insertion sort//
 	for i := 1; i < nTim; i++ {
 		temp := teams[i]
 		j := i - 1
@@ -170,6 +176,7 @@ func UrutkanTimByPoin_InsertionSort(teams *[NMAX]Tim, nTim int) {
 }
 
 func CariTim(teams *[NMAX]Tim, nTim int, nama string) int {
+//Berfungsi untuk mencari Tim menggunakan Nama tim yang ingin dicari dengan Sequential search//
 	var i int
 
 	idx := -1
@@ -183,6 +190,7 @@ func CariTim(teams *[NMAX]Tim, nTim int, nama string) int {
 }
 
 func CariTimByPoin(teams *[NMAX]Tim, nTim int, poin int) int {
+//Berfungsi untuk mencari tim bedasarkan poin yang dimiliki tim saat itu menggunakan binary search//
 	left := 0
 	right := nTim - 1
 
@@ -200,6 +208,7 @@ func CariTimByPoin(teams *[NMAX]Tim, nTim int, poin int) int {
 }
 
 func Menu() {
+//Menampilkan Fitur fitur yang dapat dipakai dalam aplikasi//
 	var choice int
 	var nTim int
 	for {
