@@ -148,30 +148,44 @@ func DisplayTeams(t *[NMAX]Tim, nTim int) {
 }
 
 func UrutkanTimByNama_SelectionSort(teams *[NMAX]Tim, nTim int) {
-	//Untuk mengurutkan Tim bedasarkan Alfabetis menggunakan Selection Sort//
-	for i := 0; i < nTim-1; i++ {
-		minIdx := i
-		for j := i + 1; j < nTim; j++ {
+	// Mengurutkan tim berdasarkan Nama (ASCENDING) menggunakan Selection Sort
+	var i, j, minIdx int
+	var temp Tim
+
+	i = 0
+	for i < nTim-1 {
+		minIdx = i
+		j = i + 1
+		for j < nTim {
 			if teams[j].Nama < teams[minIdx].Nama {
 				minIdx = j
 			}
+			j++
 		}
 		if minIdx != i {
-			teams[i], teams[minIdx] = teams[minIdx], teams[i]
+			temp = teams[i]
+			teams[i] = teams[minIdx]
+			teams[minIdx] = temp
 		}
+		i++
 	}
 }
 
 func UrutkanTimByPoin_InsertionSort(teams *[NMAX]Tim, nTim int) {
-	//Untuk mengurutkan Tim bedasarkan Poin yang dimiliki menggunakan insertion sort//
-	for i := 1; i < nTim; i++ {
-		temp := teams[i]
-		j := i - 1
+	// Mengurutkan tim berdasarkan Poin (DESCENDING) menggunakan Insertion Sort
+	var i, j int
+	var temp Tim
+
+	i = 1
+	for i < nTim {
+		temp = teams[i]
+		j = i - 1
 		for j >= 0 && teams[j].Poin < temp.Poin {
 			teams[j+1] = teams[j]
 			j--
 		}
 		teams[j+1] = temp
+		i++
 	}
 }
 
@@ -208,7 +222,7 @@ func CariTimByPoin(teams *[NMAX]Tim, nTim int, poin int) int {
 }
 
 func Menu() {
-//Menampilkan Fitur fitur yang dapat dipakai dalam aplikasi//
+	//Menampilkan Fitur fitur yang dapat dipakai dalam aplikasi//
 	var choice int
 	var nTim int
 	for {
@@ -217,7 +231,7 @@ func Menu() {
 		fmt.Println("2. Update Tim")
 		fmt.Println("3. Hapus Tim")
 		fmt.Println("4. Tampilkan Semua Tim")
-		fmt.Println("5. Cari Tim (Binary Search berdasarkan Nama)")
+		fmt.Println("5. Cari Tim (Sequential Search berdasarkan Nama)")
 		fmt.Println("6. Cari Tim (Binary Search berdasarkan Poin)")
 		fmt.Println("7. Urutkan Tim Berdasarkan Nama")
 		fmt.Println("8. Urutkan Tim Berdasarkan Poin")
